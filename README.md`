@@ -1,0 +1,208 @@
+# Laundry Shop System
+
+A professional laundry management system designed to streamline the operation of a laundry business, connecting customers and staff through a centralized digital platform.
+
+## System Overview
+
+The Laundry Shop System is a comprehensive management tool that replaces traditional paper-based tracking with a digital workflow. It solves the common problems of order tracking, payment management, and customer record-keeping in a laundry business.
+
+The system is intended for:
+- **Laundry Shop Owners**: To manage staff, oversee business reports, and ensure overall operation.
+- **Laundry Staff**: To process orders, update order statuses, manage customer details, and handle payments.
+- **Customers**: To register accounts, track their order status in real-time, manage their profiles, and view payment history.
+
+## Main Features
+
+### 👥 Customer Features
+- **Account Management**: Self-registration, login, and profile updates (including password changes).
+- **Order Tracking**: View a history of all laundry orders with details such as service type, weight, price, and current status.
+- **Real-time Status**: Check if an order is pending, processing, or ready for pickup.
+- **Payment Management**: View billing summaries, amount paid, remaining balance, and payment history.
+- **Loyalty System**: Access to loyalty cards and rewards based on laundry usage.
+- **Pickup Scheduling**: Request or view scheduled pickup times for orders.
+
+### 🛠️ Staff Features
+- **Customer Management**: Search, view, and manage customer records and contact information.
+- **Order Processing**: Create new orders, update order statuses, and view detailed order information.
+- **Payment Handling**: Record payments received from customers and update payment statuses.
+- **Pickup Management**: Manage and schedule customer pickups.
+- **Business Reporting**: Generate reports on business performance and load status.
+- **Staff Accounts**: Manage staff profiles and roles.
+
+### 👑 Owner/Admin Features
+- **Full Oversight**: Access to all staff and customer management tools.
+- **Staff Control**: Ability to create and manage staff accounts and assign roles (Owner vs. Staff).
+- **System Setup**: Initialize default administrative accounts.
+
+## Technology Stack
+
+- **Frontend**:
+  - **React 19**: Modern UI library for a responsive user experience.
+  - **Vite**: Fast build tool and development server.
+  - **React Router**: For seamless navigation between pages.
+  - **CSS3**: Custom styling for a professional interface.
+- **Backend**:
+  - **PHP**: Server-side logic and API endpoints.
+  - **PDO (PHP Data Objects)**: For secure, prepared database interactions.
+  - **PHPMailer**: Integration for sending email notifications.
+- **Database**:
+  - **MySQL**: Relational database for storing customers, orders, payments, and staff records.
+- **Environment**:
+  - **XAMPP**: Local server environment providing Apache and MySQL.
+
+## System Architecture
+
+The system follows a **Client-Server Architecture**:
+- **Frontend (Client)**: A Single Page Application (SPA) built with React that communicates with the backend via asynchronous HTTP requests (Fetch API).
+- **Backend (Server)**: A set of PHP scripts acting as a REST-like API. It handles authentication via PHP sessions and interacts with the database.
+- **Database**: A MySQL database that ensures data persistence and integrity.
+
+### Communication Flow:
+`React Frontend` $\xrightarrow{\text{JSON/HTTP}}$ `PHP API` $\xrightarrow{\text{SQL}}$ `MySQL Database`
+
+## Project Structure
+
+```text
+laundry-shop-system/
+├── backend/                # PHP API and Server Logic
+│   ├── config/             # Database and CORS configurations
+│   ├── customer/           # API endpoints for customer actions
+│   ├── customers/          # Staff-facing customer management APIs
+│   ├── orders/             # Order management and viewing APIs
+│   ├── staff/              # Staff authentication and management APIs
+│   └── vendor/             # Third-party libraries (e.g., PHPMailer)
+└── frontend/               # React Application
+    ├── public/              # Static assets
+    ├── src/
+    │   ├── components/     # Reusable UI components (Modals, Layouts)
+    │   ├── pages/          # Page views (Customer, Staff, Public)
+    │   ├── services/       # API communication logic (api.js)
+    │   └── utils/          # Helper functions (e.g., orderStatus.js)
+    ├── index.html          # Main HTML entry point
+    └── package.json        # Node.js dependencies and scripts
+```
+
+## Installation and Setup
+
+### 1. Required Software
+- **XAMPP** (with Apache and MySQL)
+- **Node.js** (LTS version)
+- **Modern Web Browser** (Chrome, Firefox, Edge)
+
+### 2. Backend Setup (XAMPP)
+1. Install **XAMPP** and start the **Apache** and **MySQL** modules.
+2. Navigate to the `C:\xampp\htdocs` directory.
+3. Place the `laundry-shop-system` folder inside `htdocs`.
+4. Access **phpMyAdmin** (`http://localhost/phpmyadmin`).
+5. Create a new database named `laundry_shop_db`.
+6. Import the provided `.sql` file (if available) or execute the necessary table creation scripts.
+
+### 3. Backend Configuration
+- Open `backend/config/database.php`.
+- Ensure the database settings match your XAMPP configuration:
+  - Host: `localhost`
+  - Database: `laundry_shop_db`
+  - User: `root`
+  - Password: `` (empty by default)
+
+### 4. Frontend Setup
+1. Open a terminal in the `frontend/` directory.
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Start the development server:
+   ```bash
+   npm run dev
+   ```
+4. Open the provided URL (usually `http://localhost:5173`) in your browser.
+
+## Database
+
+- **Database Name**: `laundry_shop_db`
+- **Key Tables**:
+  - `customers`: Stores personal details, contact info, and `customer_code`.
+  - `staff`: Stores staff credentials, roles (`owner`, `staff`), and status.
+  - `orders`: Tracks order numbers, service types, weights, prices, and statuses.
+  - `payments`: Records payment amounts, methods, and dates linked to orders.
+  - `pickup_schedules`: Manages scheduled dates and times for laundry pickup.
+
+## User Roles and Access
+
+| Role | Access Level | Key Permissions |
+| :--- | :--- | :--- |
+| **Customer** | Restricted | Register, track own orders, view own payments, manage own profile. |
+| **Staff** | Elevated | Manage all customers, update any order status, record payments, view reports. |
+| **Owner** | Full | All staff permissions + create/manage staff accounts and system setup. |
+
+## System Workflow
+
+1. **Registration/Login**: Customers register an account or login. Staff login via the staff portal.
+2. **Order Creation**: Staff creates a laundry order for a customer, assigning a service type and weight.
+3. **Processing**: Staff updates the order status (e.g., from `Pending` $\rightarrow$ `Processing` $\rightarrow$ `Ready for Pickup`).
+4. **Tracking**: Customers log in to see their order's current status in real-time.
+5. **Payment**: Once completed, staff records the payment. Customers can view their balance and payment history.
+6. **Pickup**: Customer schedules or confirms a pickup time, and staff marks the order as picked up.
+
+## Configuration
+
+### API Base URL
+In `frontend/src/services/api.js`, the `API_BASE` constant defines where the frontend looks for the backend:
+```javascript
+export const API_BASE = 'http://localhost/laundry-shop-system/backend'
+```
+Update this path if the project folder is renamed or moved.
+
+### CORS Settings
+In `backend/config/cors.php`, the `$allowed_origins` array defines which frontend URLs can access the API:
+```php
+$allowed_origins = [
+    'http://localhost:5173',
+    'http://127.0.0.1:5173',
+];
+```
+
+## API / Backend Endpoints
+
+### Customer Endpoints
+- `POST /backend/customer/register.php`: Registers a new customer account.
+- `POST /backend/customer/login.php`: Authenticates a customer.
+- `GET /backend/customer/orders.php`: Fetches the authenticated customer's order history.
+- `GET /backend/customer/payments.php`: Returns payment summary and history.
+
+### Staff Endpoints
+- `POST /backend/staff/login.php`: Authenticates staff members.
+- `GET /backend/customers/list.php`: Returns a paginated list of customers (with search/filter).
+- `GET /backend/orders/view.php?order_number=XXX`: Fetches detailed info for a specific order.
+- `GET /backend/staff/me.php`: Returns the currently logged-in staff member's profile.
+
+## Development Notes
+
+- **Authentication**: The system uses PHP sessions (`PHPSESSID` cookie) for state management.
+- **Security**: Passwords are stored using `password_hash()` with `PASSWORD_DEFAULT`.
+- **Database**: Prepared statements are used throughout the backend to prevent SQL injection.
+- **State Management**: The frontend relies on React state and routing; it does not use a global state manager like Redux, keeping the architecture lightweight.
+
+## Troubleshooting
+
+- **XAMPP / Apache Not Running**: Ensure the Apache module is green in the XAMPP Control Panel.
+- **Database Connection Error**: Check `backend/config/database.php` for correct credentials and ensure MySQL is running.
+- **CORS Errors**: If the frontend cannot reach the API, verify that the React dev server URL matches the entries in `backend/config/cors.php`.
+- **401 Unauthorized**: Ensure you are logged in. The session cookie must be sent with every request (`credentials: 'include'` in `api.js`).
+- **Frontend Dependency Errors**: Try deleting `node_modules` and `package-lock.json` and running `npm install` again.
+
+## Security Notes
+
+- **Local Development**: This system is configured for local development (`localhost`).
+- **Production Deployment**:
+  - Use **HTTPS** to protect session cookies and sensitive data.
+  - Move sensitive configurations (like database passwords) to environment variables (`.env`).
+  - Implement a more robust input validation and sanitization layer.
+  - Disable detailed error reporting in production to avoid leaking system paths.
+
+## Future Improvements
+
+- **Email Notifications**: Implement automated email alerts via PHPMailer when an order is ready for pickup.
+- **Payment Gateway Integration**: Integrate real online payment options (e.g., PayPal, Stripe).
+- **Advanced Analytics**: Create a more detailed dashboard for the owner with monthly revenue charts.
+- **Mobile App**: Convert the responsive web app into a PWA (Progressive Web App) for better mobile access.
