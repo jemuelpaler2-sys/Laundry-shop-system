@@ -6,9 +6,26 @@ use PHPMailer\PHPMailer\Exception;
 
 // Sends one email. Returns true/false and never throws — callers should not
 // let a failed email stop anything else from happening.
-function sendMail(string $toEmail, string $toName, string $subject, string $bodyHtml): bool
-{
+//
+// $attachments is a list of ['name' => string, 'data' => string, 'mime' => string]
+// and is optional, so the existing callers keep working unchanged.
+// When $error is passed by reference, the SMTP error text is written into it
+// (without exposing any password) so callers can log/return a clear message.
+function sendMail(
+    string $toEmail,
+    string $toName,
+    string $subject,
+    string $bodyHtml,
+    array $attachments = [],
+    ?string &$error = null
+): bool {
     $config = require __DIR__ . '/../config/mail.php';
+
+    if ($config['username'] === '' || $config['password'] === '') {
+        $error = 'Email is not configured. Set MAIL_USERNAME and MAIL_PASSWORD in backend/.env.';
+        error_log('Email send skipped: ' . $error);
+        return false;
+    }
 
     $mail = new PHPMailer(true);
     try {
@@ -19,6 +36,7 @@ function sendMail(string $toEmail, string $toName, string $subject, string $body
         $mail->Password   = $config['password'];
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $mail->Port       = $config['port'];
+        $mail->CharSet    = 'UTF-8';
 
         $mail->setFrom($config['from_email'], $config['from_name']);
         $mail->addAddress($toEmail, $toName);
@@ -28,10 +46,20 @@ function sendMail(string $toEmail, string $toName, string $subject, string $body
         $mail->Body    = $bodyHtml;
         $mail->AltBody  = strip_tags($bodyHtml);
 
+        foreach ($attachments as $file) {
+            $mail->addStringAttachment(
+                $file['data'],
+                $file['name'],
+                PHPMailer::ENCODING_BASE64,
+                $file['mime'] ?? 'application/octet-stream'
+            );
+        }
+
         $mail->send();
         return true;
     } catch (Exception $e) {
-        error_log('Email send failed: ' . $mail->ErrorInfo);
+        $error = $mail->ErrorInfo !== '' ? $mail->ErrorInfo : $e->getMessage();
+        error_log('Email send failed: ' . $error);
         return false;
     }
 }

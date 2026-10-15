@@ -4,6 +4,7 @@ import { apiRequest } from '../../services/api'
 import StatusBadge from '../../components/StatusBadge'
 import OrderFormModal from '../../components/OrderFormModal'
 import StaffOrderDetailsModal from '../../components/StaffOrderDetailsModal'
+import ReceiptModal from '../../components/ReceiptModal'
 import { formatPeso, formatDate, formatWeight } from '../../utils/orderStatus'
 
 const FILTERS = [
@@ -34,6 +35,7 @@ export default function StaffOrders() {
   const [viewNumber, setViewNumber] = useState(null)
   // undefined = form closed, null = new order, object = editing that order
   const [formOrder, setFormOrder] = useState(undefined)
+  const [receiptNumber, setReceiptNumber] = useState(null)
 
   // Load one page of orders (waits 300 ms while the user is still typing)
   useEffect(() => {
@@ -189,6 +191,9 @@ export default function StaffOrders() {
                               <button className="btn-link" onClick={() => setViewNumber(o.order_number)}>
                                 View
                               </button>
+                              <button className="btn-link" onClick={() => setReceiptNumber(o.order_number)}>
+                                Receipt
+                              </button>
                               {open && (
                                 <button className="btn-link" onClick={() => setFormOrder(o)}>
                                   Edit
@@ -225,7 +230,22 @@ export default function StaffOrders() {
       </div>
 
       {viewNumber && (
-        <StaffOrderDetailsModal orderNumber={viewNumber} onClose={() => setViewNumber(null)} />
+        <StaffOrderDetailsModal
+          orderNumber={viewNumber}
+          onClose={() => setViewNumber(null)}
+          onViewReceipt={(number) => {
+            setViewNumber(null)
+            setReceiptNumber(number)
+          }}
+        />
+      )}
+
+      {receiptNumber && (
+        <ReceiptModal
+          orderNumber={receiptNumber}
+          canEmail
+          onClose={() => setReceiptNumber(null)}
+        />
       )}
 
       {formOrder !== undefined && (

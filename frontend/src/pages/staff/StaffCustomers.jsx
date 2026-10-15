@@ -3,6 +3,7 @@ import { useOutletContext } from 'react-router-dom'
 import { apiRequest } from '../../services/api'
 import CustomerFormModal from '../../components/CustomerFormModal'
 import CustomerDetailsModal from '../../components/CustomerDetailsModal'
+import CustomerDeleteModal from '../../components/CustomerDeleteModal'
 
 export default function StaffCustomers() {
   const { staff } = useOutletContext()
@@ -22,6 +23,8 @@ export default function StaffCustomers() {
   const [viewId, setViewId] = useState(null)
   // undefined = form closed, null = adding a customer, object = editing that customer
   const [formCustomer, setFormCustomer] = useState(undefined)
+  // undefined = delete dialog closed, object = customer awaiting confirmation
+  const [deleteCustomer, setDeleteCustomer] = useState(undefined)
 
   // Load one page of customers (waits 300 ms while the user is still typing)
   useEffect(() => {
@@ -87,6 +90,18 @@ export default function StaffCustomers() {
       setReloadKey((k) => k + 1)
     } else {
       setNotice({ type: 'error', text: result.message || 'Could not update the customer.' })
+    }
+  }
+
+  function handleDeleted(message) {
+    setDeleteCustomer(undefined)
+    setNotice({ type: 'success', text: message })
+    // If that was the only row on a later page, step back a page; otherwise
+    // just reload the current one. Either way the table refreshes on its own.
+    if (customers.length === 1 && page > 1) {
+      setPage((p) => p - 1)
+    } else {
+      setReloadKey((k) => k + 1)
     }
   }
 
@@ -197,6 +212,12 @@ export default function StaffCustomers() {
                                 >
                                   {c.status === 'active' ? 'Deactivate' : 'Activate'}
                                 </button>
+                                <button
+                                  className="btn-link btn-link-danger"
+                                  onClick={() => setDeleteCustomer(c)}
+                                >
+                                  Delete
+                                </button>
                               </>
                             )}
                           </div>
@@ -232,6 +253,14 @@ export default function StaffCustomers() {
           customer={formCustomer}
           onClose={() => setFormCustomer(undefined)}
           onSaved={handleSaved}
+        />
+      )}
+
+      {deleteCustomer !== undefined && (
+        <CustomerDeleteModal
+          customer={deleteCustomer}
+          onClose={() => setDeleteCustomer(undefined)}
+          onDeleted={handleDeleted}
         />
       )}
     </div>

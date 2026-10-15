@@ -73,19 +73,19 @@ export default function CustomerRegister() {
             <div className="field">
               <label htmlFor="first_name">First Name</label>
               <input id="first_name" name="first_name" type="text"
-                value={form.first_name} onChange={handleChange} placeholder="Juan" />
+                value={form.first_name} onChange={handleChange} placeholder="Rene" />
             </div>
             <div className="field">
               <label htmlFor="last_name">Last Name</label>
               <input id="last_name" name="last_name" type="text"
-                value={form.last_name} onChange={handleChange} placeholder="Dela Cruz" />
+                value={form.last_name} onChange={handleChange} placeholder="Baterbonia" />
             </div>
           </div>
 
           <div className="field">
             <label htmlFor="email">Email</label>
             <input id="email" name="email" type="email"
-              value={form.email} onChange={handleChange} placeholder="juan@email.com" />
+              value={form.email} onChange={handleChange} placeholder="example@gmail.com" />
           </div>
 
           <div className="field">

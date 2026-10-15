@@ -63,6 +63,7 @@ export default function PaymentHistoryModal({ orderId, onClose }) {
                       <th>Date</th>
                       <th>Amount</th>
                       <th>Method</th>
+                      <th>Reference</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -70,7 +71,15 @@ export default function PaymentHistoryModal({ orderId, onClose }) {
                       <tr key={index}>
                         <td>{formatDateTime(p.payment_date)}</td>
                         <td><strong>{formatPeso(p.amount)}</strong></td>
-                        <td>{p.payment_method}</td>
+                        <td>
+                          {p.payment_method}
+                          {p.gateway && (
+                            <span className="badge badge-online" title={`Recorded by ${p.gateway}`}>
+                              Online
+                            </span>
+                          )}
+                        </td>
+                        <td className="muted">{p.transaction_reference || '—'}</td>
                       </tr>
                     ))}
                   </tbody>

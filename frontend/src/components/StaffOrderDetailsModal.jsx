@@ -5,7 +5,7 @@ import StatusBadge from './StatusBadge'
 import OrderTracker from './OrderTracker'
 import { formatPeso, formatDate, formatWeight, getPaymentText } from '../utils/orderStatus'
 // Pop-up with the full details of one order (staff view)
-export default function StaffOrderDetailsModal({ orderNumber, onClose }) {
+export default function StaffOrderDetailsModal({ orderNumber, onClose, onViewReceipt }) {
   const [order, setOrder] = useState(null)
   const [error, setError] = useState('')
 
@@ -52,6 +52,11 @@ export default function StaffOrderDetailsModal({ orderNumber, onClose }) {
           <>
             <div className="modal-quick-row">
               <StatusBadge status={order.order_status} />
+              {onViewReceipt && (
+                <button className="btn-link" onClick={() => onViewReceipt(order.order_number)}>
+                  → View Receipt
+                </button>
+              )}
               {!['completed', 'cancelled'].includes(order.order_status) && (
                 <>
                   <Link to="/staff/load-status" className="btn-link">→ Load Status</Link>

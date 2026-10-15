@@ -25,7 +25,8 @@ try {
     $order['price'] = (float)$order['price'];
 
     $stmt = $pdo->prepare(
-        'SELECT amount, payment_method, payment_status, payment_date
+        'SELECT amount, payment_method, payment_status, payment_date,
+                gateway, transaction_reference
          FROM payments WHERE order_id = ?
          ORDER BY payment_date DESC, id DESC'
     );

@@ -87,16 +87,37 @@ try {
          VALUES (?, ?, ?, ?, NOW())'
     );
     $stmt->execute([$orderId, $amount, $method, $newStatus]);
+    $paymentId = (int)$pdo->lastInsertId();
 
     $pdo->commit();
+
+    // Automatically email the customer their receipt. This runs AFTER the
+    // payment is committed, so a mail problem can never roll back the payment;
+    // it only leaves a 'failed' email_logs row that the retry job can resend.
+    // email_logs.payment_id is UNIQUE, so retrying the same payment can never
+    // produce a second automatic receipt.
+    require_once __DIR__ . '/../lib/OnlinePayment.php';
+    $receiptEmailed = false;
+    try {
+        $receiptEmailed = sendAutomaticReceipt($pdo, $orderId, $paymentId);
+    } catch (Throwable $e) {
+        error_log('Automatic receipt after manual payment failed: ' . $e->getMessage());
+    }
 
     $remaining = max(0, $price - $newPaid);
     $message = 'Payment of ₱' . number_format($amount, 2) . ' recorded for order ' . $order['order_number'] . '.';
     $message .= $remaining > 0.005
         ? ' Remaining balance: ₱' . number_format($remaining, 2) . '.'
         : ' This order is now fully paid.';
+    $message .= $receiptEmailed
+        ? ' A receipt has been emailed to the customer.'
+        : ' The receipt could not be emailed yet; it will be retried automatically.';
 
-    echo json_encode(['success' => true, 'message' => $message]);
+    echo json_encode([
+        'success'         => true,
+        'message'         => $message,
+        'receipt_emailed' => $receiptEmailed,
+    ]);
 } catch (PDOException $e) {
     if ($pdo->inTransaction()) {
         $pdo->rollBack();

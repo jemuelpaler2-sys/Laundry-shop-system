@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { apiRequest } from '../../services/api'
 import StatusBadge from '../../components/StatusBadge'
 import OrderDetailsModal from '../../components/OrderDetailsModal'
+import ReceiptModal from '../../components/ReceiptModal'
 import { formatPeso, formatDate, formatWeight } from '../../utils/orderStatus'
 
 const FILTERS = [
@@ -27,6 +28,7 @@ export default function CustomerOrders() {
   const [search, setSearch] = useState('')
   const [statusFilter, setStatusFilter] = useState('all')
   const [selected, setSelected] = useState(null) // order number shown in the pop-up
+  const [receiptNumber, setReceiptNumber] = useState(null)
 
   useEffect(() => {
     apiRequest('customer/orders.php').then((result) => {
@@ -137,6 +139,12 @@ export default function CustomerOrders() {
                       >
                         View Details
                       </button>
+                      <button
+                        className="btn-link"
+                        onClick={() => setReceiptNumber(o.order_number)}
+                      >
+                        Receipt
+                      </button>
                     </td>
                   </tr>
                 ))}
@@ -147,7 +155,21 @@ export default function CustomerOrders() {
       </div>
 
       {selected && (
-        <OrderDetailsModal orderNumber={selected} onClose={() => setSelected(null)} />
+        <OrderDetailsModal
+          orderNumber={selected}
+          onClose={() => setSelected(null)}
+          onViewReceipt={(number) => {
+            setSelected(null)
+            setReceiptNumber(number)
+          }}
+        />
+      )}
+
+      {receiptNumber && (
+        <ReceiptModal
+          orderNumber={receiptNumber}
+          onClose={() => setReceiptNumber(null)}
+        />
       )}
     </div>
   )

@@ -1,0 +1,11 @@
+# backend/.gitignore
+#
+# Never commit real credentials. The .env file holds the Gmail App Password
+# and other secrets; it is intentionally not tracked by git.
+
+.env
+.env.*
+!.env.example
+
+# Runtime logs
+*.log

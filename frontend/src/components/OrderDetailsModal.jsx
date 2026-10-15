@@ -2,10 +2,11 @@ import { useEffect, useState } from 'react'
 import { apiRequest } from '../services/api'
 import StatusBadge from './StatusBadge'
 import OrderTracker from './OrderTracker'
+import PayOnlineButton from './PayOnlineButton'
 import { formatPeso, formatDate, formatWeight, getPaymentText } from '../utils/orderStatus'
 
 // Pop-up with the full details of one order
-export default function OrderDetailsModal({ orderNumber, onClose }) {
+export default function OrderDetailsModal({ orderNumber, onClose, onViewReceipt }) {
   const [order, setOrder] = useState(null)
   const [error, setError] = useState('')
 
@@ -58,6 +59,14 @@ export default function OrderDetailsModal({ orderNumber, onClose }) {
           <>
             <StatusBadge status={order.order_status} />
 
+            {onViewReceipt && (
+              <div className="modal-quick-row">
+                <button className="btn-link" onClick={() => onViewReceipt(order.order_number)}>
+                  → View Receipt
+                </button>
+              </div>
+            )}
+
             <dl className="detail-list">
               <div className="detail-row">
                 <dt>Service</dt>
@@ -101,6 +110,24 @@ export default function OrderDetailsModal({ orderNumber, onClose }) {
                 <dt>Payment Status</dt>
                 <dd>{getPaymentText(order)}</dd>
               </div>
+
+              {order.balance > 0 && order.order_status !== 'cancelled' && (
+                <div className="detail-row">
+                  <dt>Pay Online</dt>
+                  <dd>
+                    <PayOnlineButton
+                      orderNumber={order.order_number}
+                      onStatusChange={() => {
+                        apiRequest(
+                          `customer/order-status.php?order_number=${encodeURIComponent(orderNumber)}`
+                        ).then((r) => {
+                          if (r.success && r.order) setOrder(r.order)
+                        })
+                      }}
+                    />
+                  </dd>
+                </div>
+              )}
             </dl>
 
             <h3>Progress</h3>

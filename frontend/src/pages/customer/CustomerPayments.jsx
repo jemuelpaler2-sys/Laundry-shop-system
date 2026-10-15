@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { apiRequest } from '../../services/api'
 import { formatPeso, formatDate } from '../../utils/orderStatus'
+import PayOnlineButton from '../../components/PayOnlineButton'
 
 const PAYMENT_LABELS = {
   paid: 'Paid',
@@ -17,11 +18,49 @@ function PaymentBadge({ status }) {
   )
 }
 
+// Banner shown after returning from PayMongo (?paid= / ?cancelled=).
+function ReturnBanner({ paidOrder, cancelledOrder, error, onDismiss }) {
+  if (error) {
+    return (
+      <div className="alert-error pay-return-banner">
+        {error}
+        <button className="banner-dismiss" onClick={onDismiss}>✕</button>
+      </div>
+    )
+  }
+  if (paidOrder) {
+    return (
+      <div className="alert-success pay-return-banner">
+        Payment received for <strong>{paidOrder}</strong>. Your receipt has been
+        emailed to you and your balance is updated.
+        <button className="banner-dismiss" onClick={onDismiss}>✕</button>
+      </div>
+    )
+  }
+  if (cancelledOrder) {
+    return (
+      <div className="info-note pay-return-banner">
+        The online payment for <strong>{cancelledOrder}</strong> was cancelled.
+        No payment was recorded.
+        <button className="banner-dismiss" onClick={onDismiss}>✕</button>
+      </div>
+    )
+  }
+  return null
+}
+
 export default function CustomerPayments() {
   const [data, setData] = useState(null)
   const [error, setError] = useState('')
 
-  useEffect(() => {
+  // Read the return URL state from PayMongo / the local simulator.
+  const params = new URLSearchParams(window.location.search)
+  const paidOrder = params.get('paid')
+  const cancelledOrder = params.get('cancelled')
+  const returnError = params.get('error')
+  const [bannerDismissed, setBannerDismissed] = useState(false)
+
+  function load() {
     apiRequest('customer/payments.php').then((result) => {
       if (result.success) {
         setData(result)
@@ -29,7 +68,35 @@ export default function CustomerPayments() {
         setError(result.message || 'Could not load your payments.')
       }
     })
+  }
+
+  useEffect(() => {
+    load()
   }, [])
+
+  // While any order has an online payment still pending, poll its status so the
+  // page updates on its own once PayMongo confirms the payment.
+  const pendingOrderNumbers = (data?.orders || [])
+    .filter((o) => o.online_status === 'pending')
+    .map((o) => o.order_number)
+  const pendingKey = pendingOrderNumbers.join(',')
+
+  useEffect(() => {
+    if (pendingKey === '') return undefined
+    const numbers = pendingKey.split(',')
+    const timer = setInterval(() => {
+      Promise.all(
+        numbers.map((orderNumber) =>
+          apiRequest(
+            `payments/paymongo/status.php?order_number=${encodeURIComponent(orderNumber)}`
+          ).then((r) => r?.online_payment?.status || 'pending')
+        )
+      ).then((statuses) => {
+        if (statuses.some((s) => s !== 'pending')) load()
+      })
+    }, 6000)
+    return () => clearInterval(timer)
+  }, [pendingKey])
 
   if (error) return <div className="alert-error">{error}</div>
   if (!data) return <p className="loading-text">Loading your payments...</p>
@@ -47,9 +114,19 @@ export default function CustomerPayments() {
       <h1 className="page-title">Payments</h1>
       <p className="page-sub">See what you have paid and what is still due.</p>
 
+      {!bannerDismissed && (
+        <ReturnBanner
+          paidOrder={paidOrder}
+          cancelledOrder={cancelledOrder}
+          error={returnError}
+          onDismiss={() => setBannerDismissed(true)}
+        />
+      )}
+
       <div className="info-note">
-        Payments are recorded by the shop when you pay (Cash, GCash, or other).
-        Your balance updates as soon as the shop records your payment.
+        You can pay your balance online via PayMongo (GCash, card, Maya, and more).
+        After you pay, your receipt is emailed to you automatically. Cash, GCash,
+        and other in-store payments are still recorded by the shop.
       </div>
 
       {/* Summary cards */}
@@ -83,6 +160,7 @@ export default function CustomerPayments() {
                   <th>Status</th>
                   <th>Method</th>
                   <th>Payment Date</th>
+                  <th></th>
                 </tr>
               </thead>
               <tbody>
@@ -100,9 +178,24 @@ export default function CustomerPayments() {
                         '—'
                       )}
                     </td>
-                    <td><PaymentBadge status={o.payment_status} /></td>
+                    <td>
+                      <PaymentBadge status={o.payment_status} />
+                      {o.online_status === 'pending' && (
+                        <span className="badge badge-online-pending" title="Waiting for PayMongo confirmation">
+                          Online pending
+                        </span>
+                      )}
+                    </td>
                     <td>{o.payment_method || '—'}</td>
                     <td>{o.payment_date ? formatDate(o.payment_date) : '—'}</td>
+                    <td>
+                      {o.price > 0 && o.balance > 0 && o.online_status !== 'pending' && (
+                        <PayOnlineButton
+                          orderNumber={o.order_number}
+                          onStatusChange={load}
+                        />
+                      )}
+                    </td>
                   </tr>
                 ))}
               </tbody>

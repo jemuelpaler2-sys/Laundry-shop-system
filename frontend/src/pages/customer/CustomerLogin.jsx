@@ -64,7 +64,7 @@ export default function CustomerLogin() {
               value={identifier}
               onChange={(e) => setIdentifier(e.target.value)}
               autoComplete="username"
-              placeholder="juan@email.com or CUST-1001"
+              placeholder="example@gmail.com or CUST-1001"
             />
           </div>
 

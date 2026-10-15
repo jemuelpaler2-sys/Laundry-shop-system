@@ -20,7 +20,10 @@ try {
               ORDER BY p.payment_date DESC, p.id DESC LIMIT 1) AS payment_method,
             (SELECT p.payment_date
                FROM payments p WHERE p.order_id = o.id
-              ORDER BY p.payment_date DESC, p.id DESC LIMIT 1) AS payment_date
+              ORDER BY p.payment_date DESC, p.id DESC LIMIT 1) AS payment_date,
+            (SELECT op.status
+               FROM online_payments op WHERE op.order_id = o.id
+              ORDER BY op.id DESC LIMIT 1) AS online_status
          FROM orders o
          WHERE o.customer_id = ? AND o.order_status <> 'cancelled'
          ORDER BY o.dropoff_date DESC, o.id DESC
