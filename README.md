@@ -52,9 +52,8 @@ laundry-shop-system/
 │   ├── payments/                # Staff-side payment recording and history
 │   ├── pickups/                 # Staff-side pickup scheduling (list/save/cancel/miss)
 │   ├── loyalty/                 # Staff-side loyalty (list, redeem, backfill CLI)
-│   ├── inventory/               # Inventory management (list/save/stock/rules/transactions)
 │   ├── jobs/                    # Background jobs (pickup reminders)
-│   ├── reports/                 # Sales, orders, customer transactions, payment history, inventory usage
+│   ├── reports/                 # Sales, orders, customer transactions, payment history
 │   └── register.php             # Shared registration entry
 │
 ├── database/
