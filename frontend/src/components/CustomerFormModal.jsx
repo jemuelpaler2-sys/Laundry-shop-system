@@ -74,7 +74,9 @@ export default function CustomerFormModal({ customer, onClose, onSaved }) {
       >
         <div className="modal-head">
           <h2>{isEdit ? `Edit ${customer.customer_code}` : 'Add Customer'}</h2>
-          <button className="modal-close" onClick={onClose} aria-label="Close">✕</button>
+          <button className="modal-close" onClick={onClose} aria-label="Close">
+            <span className="material-symbols-outlined">close</span>
+          </button>
         </div>
 
         {error && <div className="alert-error">{error}</div>}

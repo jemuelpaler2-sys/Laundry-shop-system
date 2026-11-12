@@ -2,17 +2,17 @@ import { Link } from 'react-router-dom'
 
 const features = [
   {
-    icon: '🛒',
+    icon: 'shopping_basket',
     title: 'Easy Ordering',
     text: 'Drop off your laundry and we log your order right away. No paperwork, no confusion.',
   },
   {
-    icon: '📍',
+    icon: 'location_on',
     title: 'Real-Time Order Tracking',
     text: 'See exactly where your laundry is, from washing and drying to folding and ready for pickup.',
   },
   {
-    icon: '🔒',
+    icon: 'lock',
     title: 'Secure & Reliable',
     text: 'Your account is protected, and your orders, payments and pickup schedules are always on record.',
   },
@@ -33,7 +33,7 @@ export default function LandingPage() {
       {/* ---------- Top bar ---------- */}
       <header className="landing-nav">
         <Link to="/" className="landing-brand">
-          <span></span> Laundry Shop
+          <span className="material-symbols-outlined brand-icon">local_laundry_service</span> Laundry Shop
         </Link>
         <nav className="landing-nav-links">
           <a href="#features" className="hide-mobile">Features</a>
@@ -49,7 +49,9 @@ export default function LandingPage() {
 
         <div className="hero-inner">
           <div>
-            <span className="hero-tag">✨ Fresh. Clean. On time.</span>
+            <span className="hero-tag">
+              <span className="material-symbols-outlined">auto_awesome</span> Fresh. Clean. On time.
+            </span>
             <h1>
               Clean Clothes, <span>Happy Lives</span>
             </h1>
@@ -77,7 +79,13 @@ export default function LandingPage() {
             <ul className="track">
               {sampleSteps.map((step) => (
                 <li key={step.label} className={`track-step ${step.state}`}>
-                  <span className="dot">{step.state === 'done' ? '✓' : ''}</span>
+                  <span className="dot">
+                    {step.state === 'done' ? (
+                      <span className="material-symbols-outlined">check</span>
+                    ) : (
+                      ''
+                    )}
+                  </span>
                   {step.label}
                 </li>
               ))}
@@ -96,7 +104,9 @@ export default function LandingPage() {
         <div className="feature-grid">
           {features.map((f) => (
             <div key={f.title} className="feature-card">
-              <div className="feature-icon">{f.icon}</div>
+              <div className="feature-icon">
+                <span className="material-symbols-outlined">{f.icon}</span>
+              </div>
               <h3>{f.title}</h3>
               <p>{f.text}</p>
             </div>

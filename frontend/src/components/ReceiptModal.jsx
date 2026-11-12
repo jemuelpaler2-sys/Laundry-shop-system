@@ -92,7 +92,9 @@ export default function ReceiptModal({ orderNumber, canEmail = false, onClose })
       >
         <div className="modal-head receipt-no-print">
           <h2>Receipt {receipt ? `· ${receipt.receipt_number}` : ''}</h2>
-          <button className="modal-close" onClick={onClose} aria-label="Close">✕</button>
+          <button className="modal-close" onClick={onClose} aria-label="Close">
+            <span className="material-symbols-outlined">close</span>
+          </button>
         </div>
 
         {error && <div className="alert-error receipt-no-print">{error}</div>}
@@ -252,17 +254,23 @@ export default function ReceiptModal({ orderNumber, canEmail = false, onClose })
             </div>
 
             <div className="receipt-actions receipt-no-print">
-              <button className="btn btn-primary" onClick={handlePrint}>🖨 Print Receipt</button>
-              <button className="btn btn-outline" onClick={handleDownloadPdf}>⬇ Download PDF</button>
+              <button className="btn btn-primary" onClick={handlePrint}>
+                <span className="material-symbols-outlined">print</span> Print Receipt
+              </button>
+              <button className="btn btn-outline" onClick={handleDownloadPdf}>
+                <span className="material-symbols-outlined">download</span> Download PDF
+              </button>
               {canEmail && (
                 <button
                   className="btn btn-outline"
                   onClick={() => setEmailOpen((open) => !open)}
                 >
-                  ✉ Email Receipt
+                  <span className="material-symbols-outlined">mail</span> Email Receipt
                 </button>
               )}
-              <button className="btn btn-outline" onClick={onClose}>← Back to Order</button>
+              <button className="btn btn-outline" onClick={onClose}>
+                <span className="material-symbols-outlined">arrow_back</span> Back to Order
+              </button>
             </div>
 
             {canEmail && emailOpen && (

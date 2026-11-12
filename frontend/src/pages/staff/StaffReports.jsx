@@ -115,14 +115,14 @@ export default function StaffReports() {
             <>
               <div className="stat-grid stat-grid-2">
                 <div className="stat-card">
-                  <div className="stat-icon">💰</div>
+                  <div className="stat-icon"><span className="material-symbols-outlined">payments</span></div>
                   <div>
                     <div className="stat-value stat-value-money">{formatPeso(data.totals.revenue)}</div>
                     <div className="stat-label">Total Revenue Collected</div>
                   </div>
                 </div>
                 <div className="stat-card">
-                  <div className="stat-icon">🧾</div>
+                  <div className="stat-icon"><span className="material-symbols-outlined">receipt_long</span></div>
                   <div>
                     <div className="stat-value">{data.totals.orders}</div>
                     <div className="stat-label">Orders in this Range</div>
@@ -151,19 +151,19 @@ export default function StaffReports() {
             <>
               <div className="stat-grid">
                 <div className="stat-card">
-                  <div className="stat-icon">🧾</div>
+                  <div className="stat-icon"><span className="material-symbols-outlined">receipt_long</span></div>
                   <div><div className="stat-value">{data.totals.total}</div><div className="stat-label">Total Orders</div></div>
                 </div>
                 <div className="stat-card">
-                  <div className="stat-icon">✅</div>
+                  <div className="stat-icon"><span className="material-symbols-outlined">check_circle</span></div>
                   <div><div className="stat-value">{data.totals.completed}</div><div className="stat-label">Completed</div></div>
                 </div>
                 <div className="stat-card">
-                  <div className="stat-icon">🫧</div>
+                  <div className="stat-icon"><span className="material-symbols-outlined">local_laundry_service</span></div>
                   <div><div className="stat-value">{data.totals.pending}</div><div className="stat-label">Pending</div></div>
                 </div>
                 <div className="stat-card stat-card-alert">
-                  <div className="stat-icon">❌</div>
+                  <div className="stat-icon"><span className="material-symbols-outlined">cancel</span></div>
                   <div><div className="stat-value">{data.totals.cancelled}</div><div className="stat-label">Cancelled</div></div>
                 </div>
               </div>
@@ -217,7 +217,7 @@ export default function StaffReports() {
               <div className="stat-grid stat-grid-3">
                 {Object.entries(data.by_method).map(([method, amount]) => (
                   <div key={method} className="stat-card">
-                    <div className="stat-icon">💳</div>
+                    <div className="stat-icon"><span className="material-symbols-outlined">payments</span></div>
                     <div>
                       <div className="stat-value stat-value-money">{formatPeso(amount)}</div>
                       <div className="stat-label">{method}</div>

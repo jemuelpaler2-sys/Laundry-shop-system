@@ -115,7 +115,9 @@ export default function OrderFormModal({ order, services, limits, onClose, onSav
       >
         <div className="modal-head">
           <h2>{isEdit ? `Edit Order ${order.order_number}` : 'New Order'}</h2>
-          <button className="modal-close" onClick={onClose} aria-label="Close">✕</button>
+          <button className="modal-close" onClick={onClose} aria-label="Close">
+            <span className="material-symbols-outlined">close</span>
+          </button>
         </div>
 
         {error && <div className="alert-error">{error}</div>}

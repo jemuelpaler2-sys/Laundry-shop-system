@@ -24,7 +24,7 @@ function ReturnBanner({ paidOrder, cancelledOrder, error, onDismiss }) {
     return (
       <div className="alert-error pay-return-banner">
         {error}
-        <button className="banner-dismiss" onClick={onDismiss}>✕</button>
+        <button className="banner-dismiss" onClick={onDismiss} aria-label="Dismiss"><span className="material-symbols-outlined">close</span></button>
       </div>
     )
   }
@@ -33,7 +33,7 @@ function ReturnBanner({ paidOrder, cancelledOrder, error, onDismiss }) {
       <div className="alert-success pay-return-banner">
         Payment received for <strong>{paidOrder}</strong>. Your receipt has been
         emailed to you and your balance is updated.
-        <button className="banner-dismiss" onClick={onDismiss}>✕</button>
+        <button className="banner-dismiss" onClick={onDismiss} aria-label="Dismiss"><span className="material-symbols-outlined">close</span></button>
       </div>
     )
   }
@@ -42,7 +42,7 @@ function ReturnBanner({ paidOrder, cancelledOrder, error, onDismiss }) {
       <div className="info-note pay-return-banner">
         The online payment for <strong>{cancelledOrder}</strong> was cancelled.
         No payment was recorded.
-        <button className="banner-dismiss" onClick={onDismiss}>✕</button>
+        <button className="banner-dismiss" onClick={onDismiss} aria-label="Dismiss"><span className="material-symbols-outlined">close</span></button>
       </div>
     )
   }
@@ -104,9 +104,9 @@ export default function CustomerPayments() {
   const { summary, orders, history } = data
 
   const summaryCards = [
-    { icon: '🧾', value: formatPeso(summary.total_amount), label: 'Total Amount' },
-    { icon: '✅', value: formatPeso(summary.amount_paid), label: 'Amount Paid' },
-    { icon: '⏳', value: formatPeso(summary.remaining_balance), label: 'Remaining Balance' },
+    { icon: 'receipt_long', value: formatPeso(summary.total_amount), label: 'Total Amount' },
+    { icon: 'check_circle', value: formatPeso(summary.amount_paid), label: 'Amount Paid' },
+    { icon: 'pending', value: formatPeso(summary.remaining_balance), label: 'Remaining Balance' },
   ]
 
   return (
@@ -133,7 +133,9 @@ export default function CustomerPayments() {
       <div className="stat-grid stat-grid-3">
         {summaryCards.map((card) => (
           <div key={card.label} className="stat-card">
-            <div className="stat-icon">{card.icon}</div>
+            <div className="stat-icon">
+              <span className="material-symbols-outlined">{card.icon}</span>
+            </div>
             <div>
               <div className="stat-value stat-value-money">{card.value}</div>
               <div className="stat-label">{card.label}</div>

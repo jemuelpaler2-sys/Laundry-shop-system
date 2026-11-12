@@ -55,7 +55,9 @@ export default function PaymentFormModal({ order, onClose, onSaved }) {
       >
         <div className="modal-head">
           <h2>Record Payment</h2>
-          <button className="modal-close" onClick={onClose} aria-label="Close">✕</button>
+          <button className="modal-close" onClick={onClose} aria-label="Close">
+            <span className="material-symbols-outlined">close</span>
+          </button>
         </div>
 
         <p className="muted">

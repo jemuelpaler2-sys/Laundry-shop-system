@@ -75,7 +75,9 @@ export default function InventoryFormModal({ item, categories, onClose, onSaved 
       >
         <div className="modal-head">
           <h2>{isEdit ? `Edit ${item.item_name}` : 'Add Inventory Item'}</h2>
-          <button className="modal-close" onClick={onClose} aria-label="Close">✕</button>
+          <button className="modal-close" onClick={onClose} aria-label="Close">
+            <span className="material-symbols-outlined">close</span>
+          </button>
         </div>
 
         {error && <div className="alert-error">{error}</div>}

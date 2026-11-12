@@ -91,7 +91,7 @@ export default function CustomerPickup() {
             {unscheduled.map((o) => (
               <div key={o.order_number} className="pickup-card waiting">
                 <div className="pickup-date pickup-date-alt">
-                  <strong>⏳</strong>
+                  <span className="material-symbols-outlined">schedule</span>
                 </div>
                 <div className="pickup-info">
                   <h3>Order {o.order_number}</h3>

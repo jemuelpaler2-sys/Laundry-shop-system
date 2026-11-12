@@ -111,7 +111,10 @@ export default function StaffPickups() {
       {tab === 'needs' && (
         <div className="card">
           {needs.length === 0 ? (
-            <p className="empty">Every open order has a pickup time. 🎉</p>
+            <p className="empty">
+              <span className="material-symbols-outlined">celebration</span> Every open order has a
+              pickup time.
+            </p>
           ) : (
             <div className="table-wrap">
               <table className="data-table">

@@ -100,7 +100,7 @@ export default function CustomerLogin() {
           Register
         </Link>
         <Link to="/" className="link-small">
-          ← Back to Home
+          <span className="material-symbols-outlined">arrow_back</span> Back to Home
         </Link>
         
       </div>

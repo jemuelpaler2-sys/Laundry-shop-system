@@ -84,7 +84,7 @@ export default function StaffLogin() {
         </form>
 
         <Link to="/" className="btn btn-outline">
-          ← Back to Home
+          <span className="material-symbols-outlined">arrow_back</span> Back to Home
         </Link>
       </div>
     </div>

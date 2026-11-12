@@ -42,7 +42,9 @@ export default function StaffOrderDetailsModal({ orderNumber, onClose, onViewRec
       >
         <div className="modal-head">
           <h2>Order #{orderNumber}</h2>
-          <button className="modal-close" onClick={onClose} aria-label="Close">✕</button>
+          <button className="modal-close" onClick={onClose} aria-label="Close">
+            <span className="material-symbols-outlined">close</span>
+          </button>
         </div>
 
         {error && <div className="alert-error">{error}</div>}
@@ -54,15 +56,21 @@ export default function StaffOrderDetailsModal({ orderNumber, onClose, onViewRec
               <StatusBadge status={order.order_status} />
               {onViewReceipt && (
                 <button className="btn-link" onClick={() => onViewReceipt(order.order_number)}>
-                  → View Receipt
+                  <span className="material-symbols-outlined">arrow_forward</span> View Receipt
                 </button>
               )}
               {!['completed', 'cancelled'].includes(order.order_status) && (
                 <>
-                  <Link to="/staff/load-status" className="btn-link">→ Load Status</Link>
-                  <Link to="/staff/pickups" className="btn-link">→ Schedule Pickup</Link>
+                  <Link to="/staff/load-status" className="btn-link">
+                    <span className="material-symbols-outlined">arrow_forward</span> Load Status
+                  </Link>
+                  <Link to="/staff/pickups" className="btn-link">
+                    <span className="material-symbols-outlined">arrow_forward</span> Schedule Pickup
+                  </Link>
                   {order.balance > 0 && (
-                    <Link to="/staff/payments" className="btn-link">→ Record Payment</Link>
+                    <Link to="/staff/payments" className="btn-link">
+                      <span className="material-symbols-outlined">arrow_forward</span> Record Payment
+                    </Link>
                   )}
                 </>
               )}

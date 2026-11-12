@@ -35,18 +35,18 @@ export default function CustomerDashboard() {
   const notifications = []
   if (order) {
     notifications.push({
-      icon: '🧺',
+      icon: 'local_laundry_service',
       text: `Your order ${order.order_number} is now ${STATUS_LABELS[order.order_status]}.`,
     })
     if (order.pickup_date) {
       notifications.push({
-        icon: '🚚',
+        icon: 'local_shipping',
         text: `Pickup scheduled for ${formatDate(order.pickup_date)}, ${order.pickup_time}.`,
       })
     }
     if (order.price > 0 && order.balance > 0) {
       notifications.push({
-        icon: '💳',
+        icon: 'payments',
         text: `You have a balance of ${formatPeso(order.balance)} for ${order.order_number}.`,
       })
     }
@@ -54,16 +54,16 @@ export default function CustomerDashboard() {
   if (stats.ready_for_pickup > 0) {
     const n = stats.ready_for_pickup
     notifications.push({
-      icon: '✅',
+      icon: 'check_circle',
       text: `${n} ${n === 1 ? 'order is' : 'orders are'} ready for pickup!`,
     })
   }
 
   const statCards = [
-    { icon: '🧾', value: stats.total_orders, label: 'Total Orders' },
-    { icon: '🫧', value: stats.in_progress, label: 'Orders In Progress' },
-    { icon: '📦', value: stats.ready_for_pickup, label: 'Ready for Pickup' },
-    { icon: '✅', value: stats.completed, label: 'Completed Orders' },
+    { icon: 'receipt_long', value: stats.total_orders, label: 'Total Orders' },
+    { icon: 'local_laundry_service', value: stats.in_progress, label: 'Orders In Progress' },
+    { icon: 'inventory_2', value: stats.ready_for_pickup, label: 'Ready for Pickup' },
+    { icon: 'check_circle', value: stats.completed, label: 'Completed Orders' },
   ]
 
   return (
@@ -75,7 +75,9 @@ export default function CustomerDashboard() {
       <div className="stat-grid">
         {statCards.map((card) => (
           <div key={card.label} className="stat-card">
-            <div className="stat-icon">{card.icon}</div>
+            <div className="stat-icon">
+              <span className="material-symbols-outlined">{card.icon}</span>
+            </div>
             <div>
               <div className="stat-value">{card.value}</div>
               <div className="stat-label">{card.label}</div>
@@ -99,7 +101,9 @@ export default function CustomerDashboard() {
               </div>
               <div className="co-head-actions">
                 <StatusBadge status={order.order_status} />
-                <Link to="/customer/pickup" className="link-inline">Pickup details →</Link>
+                <Link to="/customer/pickup" className="link-inline">
+                  Pickup details <span className="material-symbols-outlined">arrow_forward</span>
+                </Link>
               </div>
             </div>
 
@@ -108,7 +112,13 @@ export default function CustomerDashboard() {
                 const state = getStepState(order.order_status, index)
                 return (
                   <li key={step.key} className={state}>
-                    <span className="dot">{state === 'done' ? '✓' : ''}</span>
+                    <span className="dot">
+                      {state === 'done' ? (
+                        <span className="material-symbols-outlined">check</span>
+                      ) : (
+                        ''
+                      )}
+                    </span>
                     {step.label}
                   </li>
                 )
@@ -160,7 +170,7 @@ export default function CustomerDashboard() {
           <ul className="notif-list">
             {notifications.map((n, i) => (
               <li key={i}>
-                <span>{n.icon}</span>
+                <span className="material-symbols-outlined">{n.icon}</span>
                 <span>{n.text}</span>
               </li>
             ))}

@@ -78,13 +78,13 @@ export const STATUS_DESCRIPTIONS = {
 }
 
 export const STATUS_ICONS = {
-  dropoff: '📥',
-  washing: '🫧',
-  drying: '🌬️',
-  folding: '👕',
-  ready_for_pickup: '📦',
-  completed: '✅',
-  cancelled: '❌',
+  dropoff: 'move_to_inbox',
+  washing: 'local_laundry_service',
+  drying: 'air',
+  folding: 'checkroom',
+  ready_for_pickup: 'inventory_2',
+  completed: 'check_circle',
+  cancelled: 'cancel',
 }
 
 // Payment status text for one order (needs price, balance and amount_paid)

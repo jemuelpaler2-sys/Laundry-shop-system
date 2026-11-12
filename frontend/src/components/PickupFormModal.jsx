@@ -63,7 +63,9 @@ export default function PickupFormModal({ order, pickup, slots, onClose, onSaved
       >
         <div className="modal-head">
           <h2>{isReschedule ? 'Reschedule Pickup' : 'Schedule Pickup'}</h2>
-          <button className="modal-close" onClick={onClose} aria-label="Close">✕</button>
+          <button className="modal-close" onClick={onClose} aria-label="Close">
+            <span className="material-symbols-outlined">close</span>
+          </button>
         </div>
 
         <p className="muted">

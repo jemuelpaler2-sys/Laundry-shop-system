@@ -35,10 +35,10 @@ export default function CustomerLoyalty() {
   const { customer, card, rewards, stamps, rule } = data
 
   const statCards = [
-    { icon: '🧺', value: card.stamps, label: 'Current Stamps' },
-    { icon: '✅', value: card.total_completed_washes, label: 'Completed Washes' },
-    { icon: '🎁', value: card.rewards_unlocked, label: 'Rewards Unlocked' },
-    { icon: '💰', value: card.rewards_claimed, label: 'Rewards Claimed' },
+    { icon: 'local_laundry_service', value: card.stamps, label: 'Current Stamps' },
+    { icon: 'check_circle', value: card.total_completed_washes, label: 'Completed Washes' },
+    { icon: 'card_giftcard', value: card.rewards_unlocked, label: 'Rewards Unlocked' },
+    { icon: 'savings', value: card.rewards_claimed, label: 'Rewards Claimed' },
   ]
 
   return (
@@ -74,7 +74,9 @@ export default function CustomerLoyalty() {
       <div className="stat-grid stat-grid-4">
         {statCards.map((s) => (
           <div key={s.label} className="stat-card">
-            <div className="stat-icon">{s.icon}</div>
+            <div className="stat-icon">
+              <span className="material-symbols-outlined">{s.icon}</span>
+            </div>
             <div>
               <div className="stat-value">{s.value}</div>
               <div className="stat-label">{s.label}</div>
@@ -87,7 +89,9 @@ export default function CustomerLoyalty() {
       {card.pending_reward && (
         <div className="card reward-panel">
           <div className="reward-panel-head">
-            <span className="reward-panel-icon">🎉</span>
+            <span className="reward-panel-icon">
+              <span className="material-symbols-outlined">celebration</span>
+            </span>
             <div>
               <h2>Reward Unlocked!</h2>
               <p className="muted">
@@ -194,7 +198,9 @@ export default function CustomerLoyalty() {
                     </td>
                     <td>
                       {s.stamps_added === 1 ? (
-                        <span className="text-stamp-earned">✓ +1 stamp</span>
+                        <span className="text-stamp-earned">
+                          <span className="material-symbols-outlined">check</span> +1 stamp
+                        </span>
                       ) : (
                         <span className="muted">Counted, held</span>
                       )}

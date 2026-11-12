@@ -25,9 +25,9 @@ export default function StaffDashboard() {
   const { stats, recent_orders: recent } = data
 
   const statCards = [
-    { icon: '👥', value: stats.total_customers, label: 'Total Customers' },
-    { icon: '🫧', value: stats.active_orders, label: 'Active Orders' },
-    { icon: '📦', value: stats.ready_for_pickup, label: 'Ready for Pickup' },
+    { icon: 'groups', value: stats.total_customers, label: 'Total Customers' },
+    { icon: 'local_laundry_service', value: stats.active_orders, label: 'Active Orders' },
+    { icon: 'inventory_2', value: stats.ready_for_pickup, label: 'Ready for Pickup' },
   ]
 
   return (
@@ -38,7 +38,9 @@ export default function StaffDashboard() {
       <div className="stat-grid stat-grid-3">
         {statCards.map((card) => (
           <div key={card.label} className="stat-card">
-            <div className="stat-icon">{card.icon}</div>
+            <div className="stat-icon">
+              <span className="material-symbols-outlined">{card.icon}</span>
+            </div>
             <div>
               <div className="stat-value">{card.value}</div>
               <div className="stat-label">{card.label}</div>

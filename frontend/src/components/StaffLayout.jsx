@@ -3,15 +3,15 @@ import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom'
 import { apiRequest } from '../services/api'
 
 const links = [
-  { to: '/staff/dashboard', label: 'Dashboard', icon: '🏠' },
-  { to: '/staff/customers', label: 'Customers', icon: '👥' },
-  { to: '/staff/loyalty', label: 'Loyalty & Rewards', icon: '🧺' },
-  { to: '/staff/orders', label: 'Orders', icon: '🧾' },
-  { to: '/staff/load-status', label: 'Load Status', icon: '🫧' },
-  { to: '/staff/pickups', label: 'Pickup Scheduling', icon: '🚚' },
-  { to: '/staff/payments', label: 'Payments', icon: '💳' },
-  { to: '/staff/reports', label: 'Reports', icon: '📊' },
-  { to: '/staff/account', label: 'Staff Account', icon: '👤' },
+  { to: '/staff/dashboard', label: 'Dashboard', icon: 'dashboard' },
+  { to: '/staff/customers', label: 'Customers', icon: 'groups' },
+  { to: '/staff/loyalty', label: 'Loyalty & Rewards', icon: 'loyalty' },
+  { to: '/staff/orders', label: 'Orders', icon: 'receipt_long' },
+  { to: '/staff/load-status', label: 'Load Status', icon: 'local_laundry_service' },
+  { to: '/staff/pickups', label: 'Pickup Scheduling', icon: 'local_shipping' },
+  { to: '/staff/payments', label: 'Payments', icon: 'payments' },
+  { to: '/staff/reports', label: 'Reports', icon: 'bar_chart' },
+  { to: '/staff/account', label: 'Staff Account', icon: 'person' },
 ]
 
 // Wraps every staff page: checks the staff login, shows the sidebar and top bar
@@ -48,7 +48,7 @@ export default function StaffLayout() {
 
       <aside className={`staff-sidebar ${menuOpen ? 'open' : ''}`}>
         <Link to="/staff/dashboard" className="staff-brand" onClick={() => setMenuOpen(false)}>
-          <span></span>
+          <span className="material-symbols-outlined brand-icon">local_laundry_service</span>
           <div>
             Laundry Shop
             <small>Staff Portal</small>
@@ -58,7 +58,7 @@ export default function StaffLayout() {
         <nav className="staff-nav">
           {links.map((link) => (
             <NavLink key={link.to} to={link.to} onClick={() => setMenuOpen(false)}>
-              <span>{link.icon}</span> {link.label}
+              <span className="material-symbols-outlined">{link.icon}</span> {link.label}
             </NavLink>
           ))}
         </nav>
@@ -71,7 +71,7 @@ export default function StaffLayout() {
       <div className="staff-content">
         <header className="staff-topbar">
           <button className="menu-btn" onClick={() => setMenuOpen(true)} aria-label="Open menu">
-            ☰
+            <span className="material-symbols-outlined">menu</span>
           </button>
           <div className="staff-user">
             <span className="hide-mobile">

@@ -21,7 +21,9 @@ export default function LoyaltyCard({
   return (
     <div className={`loyalty-card ${size} ${unlocked ? 'unlocked' : ''}`}>
       <div className="loyalty-card-head">
-        <span className="loyalty-card-icon">🧺</span>
+        <span className="loyalty-card-icon">
+          <span className="material-symbols-outlined">local_laundry_service</span>
+        </span>
         <div>
           <h3>{title}</h3>
           <small>1 completed wash = 1 stamp</small>
@@ -38,7 +40,13 @@ export default function LoyaltyCard({
               className={`loyalty-slot ${filled ? 'filled' : 'empty'}`}
               title={filled ? `Wash ${index + 1} completed` : `Wash ${index + 1} not yet completed`}
             >
-              <span>{filled ? '✓' : SLOT_NUMBERS[index] ?? '○'}</span>
+              <span>
+                {filled ? (
+                  <span className="material-symbols-outlined">check</span>
+                ) : (
+                  SLOT_NUMBERS[index] ?? '○'
+                )}
+              </span>
             </div>
           )
         })}
@@ -55,7 +63,8 @@ export default function LoyaltyCard({
 
       {unlocked ? (
         <p className="loyalty-hint unlocked-hint">
-          🎉 Reward Unlocked! Claim your reward at the shop to start the next card.
+          <span className="material-symbols-outlined">celebration</span> Reward Unlocked! Claim your
+          reward at the shop to start the next card.
         </p>
       ) : (
         showHint && (

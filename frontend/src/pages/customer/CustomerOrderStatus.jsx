@@ -116,7 +116,11 @@ export default function CustomerOrderStatus() {
             <>
               {/* Big status banner */}
               <div className="status-hero">
-                <div className="status-hero-icon">{STATUS_ICONS[order.order_status]}</div>
+                <div className="status-hero-icon">
+                  <span className="material-symbols-outlined">
+                    {STATUS_ICONS[order.order_status]}
+                  </span>
+                </div>
                 <div>
                   <small>Order #{order.order_number} · Current status</small>
                   <h2>{STATUS_LABELS[order.order_status]}</h2>

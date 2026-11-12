@@ -84,9 +84,9 @@ export default function StaffPayments() {
   }
 
   const summaryCards = [
-    { icon: '🧾', value: formatPeso(summary.total_billed), label: 'Total Billed' },
-    { icon: '✅', value: formatPeso(summary.total_paid), label: 'Total Collected' },
-    { icon: '⏳', value: formatPeso(summary.outstanding), label: 'Outstanding Balance' },
+    { icon: 'receipt_long', value: formatPeso(summary.total_billed), label: 'Total Billed' },
+    { icon: 'check_circle', value: formatPeso(summary.total_paid), label: 'Total Collected' },
+    { icon: 'pending', value: formatPeso(summary.outstanding), label: 'Outstanding Balance' },
   ]
 
   return (
@@ -105,7 +105,9 @@ export default function StaffPayments() {
       <div className="stat-grid stat-grid-3">
         {summaryCards.map((card) => (
           <div key={card.label} className="stat-card">
-            <div className="stat-icon">{card.icon}</div>
+            <div className="stat-icon">
+              <span className="material-symbols-outlined">{card.icon}</span>
+            </div>
             <div>
               <div className="stat-value stat-value-money">{card.value}</div>
               <div className="stat-label">{card.label}</div>
@@ -205,9 +207,13 @@ export default function StaffPayments() {
 
             {totalPages > 1 && (
               <div className="pager">
-                <button onClick={() => setPage(page - 1)} disabled={page <= 1}>← Previous</button>
+                <button onClick={() => setPage(page - 1)} disabled={page <= 1}>
+                  <span className="material-symbols-outlined">chevron_left</span> Previous
+                </button>
                 <span>Page {page} of {totalPages}</span>
-                <button onClick={() => setPage(page + 1)} disabled={page >= totalPages}>Next →</button>
+                <button onClick={() => setPage(page + 1)} disabled={page >= totalPages}>
+                  Next <span className="material-symbols-outlined">chevron_right</span>
+                </button>
               </div>
             )}
           </>

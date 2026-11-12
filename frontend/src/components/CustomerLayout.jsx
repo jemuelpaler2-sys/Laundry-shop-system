@@ -3,13 +3,13 @@ import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom'
 import { apiRequest } from '../services/api'
 
 const links = [
-  { to: '/customer/dashboard', label: 'Dashboard', icon: '🏠' },
-  { to: '/customer/order-status', label: 'Order Status', icon: '📍' },
-  { to: '/customer/loyalty', label: 'Loyalty Card', icon: '🧺' },
-  { to: '/customer/orders', label: 'My Orders', icon: '🧾' },
-  { to: '/customer/payments', label: 'Payments', icon: '💳' },
-  { to: '/customer/pickup', label: 'Pickup', icon: '🚚' },
-  { to: '/customer/profile', label: 'Profile', icon: '👤' },
+  { to: '/customer/dashboard', label: 'Dashboard', icon: 'dashboard' },
+  { to: '/customer/order-status', label: 'Order Status', icon: 'location_on' },
+  { to: '/customer/loyalty', label: 'Loyalty Card', icon: 'loyalty' },
+  { to: '/customer/orders', label: 'My Orders', icon: 'receipt_long' },
+  { to: '/customer/payments', label: 'Payments', icon: 'payments' },
+  { to: '/customer/pickup', label: 'Pickup', icon: 'local_shipping' },
+  { to: '/customer/profile', label: 'Profile', icon: 'person' },
 ]
 
 // Wraps every customer page: checks the login, shows the header and navigation
@@ -39,7 +39,7 @@ export default function CustomerLayout() {
       <header className="cust-header">
         <div className="cust-header-top">
           <Link to="/customer/dashboard" className="cust-brand">
-            <span></span> Laundry Shop
+            <span className="material-symbols-outlined brand-icon">local_laundry_service</span> Laundry Shop
           </Link>
           <div className="cust-user">
             <span className="hide-mobile">{customer.customer_code}</span>
@@ -52,7 +52,7 @@ export default function CustomerLayout() {
         <nav className="cust-nav">
           {links.map((link) => (
             <NavLink key={link.to} to={link.to}>
-              {link.icon} {link.label}
+              <span className="material-symbols-outlined">{link.icon}</span> {link.label}
             </NavLink>
           ))}
         </nav>

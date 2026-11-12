@@ -4,11 +4,11 @@ import { apiRequest } from '../../services/api'
 import { formatPeso, formatDate, DEFAULT_LIMITS } from '../../utils/orderStatus'
 
 const COLUMNS = [
-  { key: 'dropoff', title: 'Drop-off', icon: '📥' },
-  { key: 'washing', title: 'Washing', icon: '🫧' },
-  { key: 'drying', title: 'Drying', icon: '🌬️' },
-  { key: 'folding', title: 'Folding', icon: '👕' },
-  { key: 'ready_for_pickup', title: 'Ready for Pickup', icon: '📦' },
+  { key: 'dropoff', title: 'Drop-off', icon: 'move_to_inbox' },
+  { key: 'washing', title: 'Washing', icon: 'local_laundry_service' },
+  { key: 'drying', title: 'Drying', icon: 'air' },
+  { key: 'folding', title: 'Folding', icon: 'checkroom' },
+  { key: 'ready_for_pickup', title: 'Ready for Pickup', icon: 'inventory_2' },
 ]
 
 // Text on the button that moves a load to the next stage
@@ -107,7 +107,7 @@ export default function StaffLoadStatus() {
           <p className="page-sub">Move each load through the shop, one step at a time.</p>
         </div>
         <button className="btn-link" onClick={() => setReloadKey((k) => k + 1)}>
-          ↻ Refresh
+          <span className="material-symbols-outlined">refresh</span> Refresh
         </button>
       </div>
 
@@ -124,7 +124,9 @@ export default function StaffLoadStatus() {
           return (
             <div key={col.key} className="board-col">
               <div className="board-col-head">
-                <span>{col.icon} {col.title}</span>
+                <span>
+                  <span className="material-symbols-outlined">{col.icon}</span> {col.title}
+                </span>
                 <span className="board-count">{cards.length}</span>
               </div>
 
@@ -150,7 +152,9 @@ export default function StaffLoadStatus() {
                       ) : o.balance > 0 ? (
                         <p className="load-due">Balance due: {formatPeso(o.balance)}</p>
                       ) : (
-                        <p className="load-paid">Paid in full ✓</p>
+                        <p className="load-paid">
+                          <span className="material-symbols-outlined">check_circle</span> Paid in full
+                        </p>
                       ))}
 
                     <div className="load-actions">
@@ -182,7 +186,7 @@ export default function StaffLoadStatus() {
                           disabled={busy}
                           onClick={() => handleMove(o, 'back')}
                         >
-                          ↩ Back one step
+                          <span className="material-symbols-outlined">undo</span> Back one step
                         </button>
                       )}
                     </div>

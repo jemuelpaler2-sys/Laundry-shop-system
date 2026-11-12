@@ -232,11 +232,11 @@ export default function StaffCustomers() {
             {totalPages > 1 && (
               <div className="pager">
                 <button onClick={() => setPage(page - 1)} disabled={page <= 1}>
-                  ← Previous
+                  <span className="material-symbols-outlined">chevron_left</span> Previous
                 </button>
                 <span>Page {page} of {totalPages}</span>
                 <button onClick={() => setPage(page + 1)} disabled={page >= totalPages}>
-                  Next →
+                  Next <span className="material-symbols-outlined">chevron_right</span>
                 </button>
               </div>
             )}

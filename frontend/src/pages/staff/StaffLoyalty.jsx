@@ -105,9 +105,9 @@ export default function StaffLoyalty() {
   }
 
   const statCards = [
-    { icon: '💳', value: summary.cards, label: 'Loyalty Cards' },
-    { icon: '🎁', value: summary.rewards_pending, label: 'Waiting To Be Claimed', alert: true },
-    { icon: '✅', value: summary.rewards_redeemed, label: 'Rewards Redeemed' },
+    { icon: 'loyalty', value: summary.cards, label: 'Loyalty Cards' },
+    { icon: 'card_giftcard', value: summary.rewards_pending, label: 'Waiting To Be Claimed', alert: true },
+    { icon: 'check_circle', value: summary.rewards_redeemed, label: 'Rewards Redeemed' },
   ]
 
   return (
@@ -126,7 +126,9 @@ export default function StaffLoyalty() {
       <div className="stat-grid stat-grid-3">
         {statCards.map((card) => (
           <div key={card.label} className={`stat-card ${card.alert && card.value > 0 ? 'stat-card-alert' : ''}`}>
-            <div className="stat-icon">{card.icon}</div>
+            <div className="stat-icon">
+              <span className="material-symbols-outlined">{card.icon}</span>
+            </div>
             <div>
               <div className="stat-value">{card.value}</div>
               <div className="stat-label">{card.label}</div>
@@ -245,11 +247,11 @@ export default function StaffLoyalty() {
             {totalPages > 1 && (
               <div className="pager">
                 <button onClick={() => setPage(page - 1)} disabled={page <= 1}>
-                  ← Previous
+                  <span className="material-symbols-outlined">chevron_left</span> Previous
                 </button>
                 <span>Page {page} of {totalPages}</span>
                 <button onClick={() => setPage(page + 1)} disabled={page >= totalPages}>
-                  Next →
+                  Next <span className="material-symbols-outlined">chevron_right</span>
                 </button>
               </div>
             )}

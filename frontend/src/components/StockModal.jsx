@@ -55,7 +55,9 @@ export default function StockModal({ item, mode, onClose, onSaved }) {
       >
         <div className="modal-head">
           <h2>{isAdd ? 'Add Stock' : 'Record Usage'}</h2>
-          <button className="modal-close" onClick={onClose} aria-label="Close">✕</button>
+          <button className="modal-close" onClick={onClose} aria-label="Close">
+            <span className="material-symbols-outlined">close</span>
+          </button>
         </div>
 
         <p className="muted">

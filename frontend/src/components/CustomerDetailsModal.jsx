@@ -43,7 +43,9 @@ export default function CustomerDetailsModal({ customerId, onClose }) {
       >
         <div className="modal-head">
           <h2>{c ? `${c.first_name} ${c.last_name}` : 'Customer'}</h2>
-          <button className="modal-close" onClick={onClose} aria-label="Close">✕</button>
+          <button className="modal-close" onClick={onClose} aria-label="Close">
+            <span className="material-symbols-outlined">close</span>
+          </button>
         </div>
 
         {error && <div className="alert-error">{error}</div>}

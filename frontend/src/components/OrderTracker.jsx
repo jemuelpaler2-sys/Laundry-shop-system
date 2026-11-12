@@ -13,7 +13,9 @@ export default function OrderTracker({ status }) {
         const state = getStepState(status, index)
         return (
           <li key={step.key} className={state}>
-            <span className="v-dot">{state === 'done' ? '✓' : ''}</span>
+            <span className="v-dot">
+              {state === 'done' ? <span className="material-symbols-outlined">check</span> : ''}
+            </span>
             <div>
               <strong>{STATUS_LABELS[step.key]}</strong>
               <p>{STATUS_DESCRIPTIONS[step.key]}</p>

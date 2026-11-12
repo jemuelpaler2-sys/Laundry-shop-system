@@ -48,7 +48,7 @@ export default function OrderDetailsModal({ orderNumber, onClose, onViewReceipt 
         <div className="modal-head">
           <h2>Order #{orderNumber}</h2>
           <button className="modal-close" onClick={onClose} aria-label="Close">
-            ✕
+            <span className="material-symbols-outlined">close</span>
           </button>
         </div>
 
@@ -62,7 +62,7 @@ export default function OrderDetailsModal({ orderNumber, onClose, onViewReceipt 
             {onViewReceipt && (
               <div className="modal-quick-row">
                 <button className="btn-link" onClick={() => onViewReceipt(order.order_number)}>
-                  → View Receipt
+                  <span className="material-symbols-outlined">arrow_forward</span> View Receipt
                 </button>
               </div>
             )}
